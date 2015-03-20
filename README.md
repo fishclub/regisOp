@@ -1,1 +1,4 @@
 # regisOp v1.0
+
+db.comment.insert({ "username" : "testuser1", "content" : "testuser1 content" })
+
