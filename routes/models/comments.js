@@ -9,7 +9,7 @@ var CommentSchema = new Schema({
 
 var Comment = mongoose.model('comment', CommentSchema);
 
-router.get('/commentlist', function (req, res){
+router.get('/listcomment', function (req, res){
 	Comment.find(function(err, comments){
 		if (err) return console.error(err);
 		res.render( 'comments', {
@@ -19,14 +19,22 @@ router.get('/commentlist', function (req, res){
     });
 });
 
-router.get('/commentadd', function (req, res){
+router.post('/addcomment', function (req, res){
 	var objAdd = new Comment();
-		objAdd.username = "test1";
-		objAdd.content = "hello1";
+		objAdd.username = req.body.username;
+		objAdd.content = req.body.content;
 		objAdd.save(function(err, comment) {
 			if (err) return console.error(err);
-			res.render('helloworld');
+			res.redirect('./listcomment');
 		});
+});
+
+router.post('/delcomment', function (req, res){
+	Comment.findById( req.params.id, function ( err, comment ){
+    comment.remove( function ( err, comment ){
+      res.redirect('./listcomment');
+    });
+  });
 });
 
 module.exports = router;
