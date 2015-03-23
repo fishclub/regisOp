@@ -5,9 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var mongoose = require( 'mongoose' );
-mongoose.connect( 'mongodb://localhost:27017/test' );
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var comments = require('./routes/models/comments');
@@ -60,5 +57,7 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+
 
 module.exports = app;
