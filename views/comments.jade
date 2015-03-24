@@ -2,12 +2,33 @@ extends layout
 
 block content
   .container
-      .starter-template
-        h1  Comments
-        for comment in comments
-         p #{comment.username} | a (href=./comments/#{comment._id})
-        p Add Comment
-          form#formAddComment(name="addcomment",method="post",action="/comments/addcomment")
-           input#inputUserName(type="text", placeholder="username", name="username")
-           input#inputContent(type="text", placeholder="content", name="content")
-           button#btnSubmit(type="submit") submit
+        h2 Comments
+        table.table
+         tr
+          th.
+            Username
+          th.
+            Content
+          th.
+            Action
+          for comment in comments
+           tr
+            td #{comment.username}
+            td #{comment.content}			
+            td #[a.btn.btn-primary(href="/comments/editcomment/#{comment._id}") Edit] #[a.btn.btn-danger(href="/comments/delcomment/#{comment._id}") Delete]
+        h4 Add Comment
+        if comment._id==''
+          form(name="addcomment",method="post",action="/comments/addcomment")
+        else
+          form(name="addcomment",method="post",action="/comments/updatecomment/#{comment._id}")
+           .form-group
+           label Username: 
+           input.form-control(type="text", placeholder="username", name="username", value="#{comment.username}")
+           .form-group
+           label Content: 
+           input.form-control(type="text", placeholder="content", name="content", value="#{comment.content}")
+           .form-group
+           if comment._id=='' 
+               button.btn.btn-primary(type="submit") Save
+           else
+               button.btn.btn-primary(type="submit") Update
