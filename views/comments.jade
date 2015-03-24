@@ -16,8 +16,8 @@ block content
             td #{comment.username}
             td #{comment.content}			
             td #[a.btn.btn-primary(href="/comments/editcomment/#{comment._id}") Edit] #[a.btn.btn-danger(href="/comments/delcomment/#{comment._id}") Delete]
-        h4 Add Comment
-        if comment._id==''
+        h4 Add Comment #{comment}
+        if typeof(comment.username)==''
           form(name="addcomment",method="post",action="/comments/addcomment")
         else
           form(name="addcomment",method="post",action="/comments/updatecomment/#{comment._id}")
@@ -28,7 +28,7 @@ block content
            label Content: 
            input.form-control(type="text", placeholder="content", name="content", value="#{comment.content}")
            .form-group
-           if comment._id=='' 
+           if typeof(comment.username)=='' 
                button.btn.btn-primary(type="submit") Save
            else
                button.btn.btn-primary(type="submit") Update

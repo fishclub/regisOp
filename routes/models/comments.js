@@ -49,7 +49,8 @@ router.get('/editcomment/:id', function (req, res){
 		if (err) return console.error(err);
 		res.render( 'comments', {
 			comment : comment,
-			comments : comments
+			comments : comments,
+			message: req.flash('error')
 		});
     });
   });
@@ -66,7 +67,8 @@ router.post('/updatecomment/:id', function (req, res){
 			if (err) return console.error(err);
 			res.render( 'comments', {
 				comment : comment,
-				comments : comments
+				comments : comments,
+				message: req.flash('error')
 			});
 		});
 	});
