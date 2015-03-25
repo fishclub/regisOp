@@ -16,11 +16,21 @@ block content
             td #{comment.username}
             td #{comment.content}			
             td #[a.btn.btn-primary(href="/comments/editcomment/#{comment._id}") Edit] #[a.btn.btn-danger(href="/comments/delcomment/#{comment._id}") Delete]
-        h4 Add Comment #{comment}
-        if typeof(comment.username)==''
+        h4 Add Comment
+        if comment.username==''
           form(name="addcomment",method="post",action="/comments/addcomment")
+           input(name="_id", type="hidden", value="#{comment._id}")		  
+           .form-group
+           label Username: 
+           input.form-control(type="text", placeholder="username", name="username")
+           .form-group
+           label Content: 
+           input.form-control(type="text", placeholder="content", name="content")
+           .form-group
+           button.btn.btn-primary(type="submit") Save
         else
-          form(name="addcomment",method="post",action="/comments/updatecomment/#{comment._id}")
+          form(name="addcomment",method="post",action="/comments/updatecomment")
+           input(name="_id", type="hidden", value="#{comment._id}")
            .form-group
            label Username: 
            input.form-control(type="text", placeholder="username", name="username", value="#{comment.username}")
@@ -28,7 +38,4 @@ block content
            label Content: 
            input.form-control(type="text", placeholder="content", name="content", value="#{comment.content}")
            .form-group
-           if typeof(comment.username)=='' 
-               button.btn.btn-primary(type="submit") Save
-           else
-               button.btn.btn-primary(type="submit") Update
+           button.btn.btn-primary(type="submit") Update

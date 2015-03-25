@@ -56,8 +56,8 @@ router.get('/editcomment/:id', function (req, res){
   });
 });
 
-router.post('/updatecomment/:id', function (req, res){
-	Comment.findById(req.params.id, function(err, comment){
+router.post('/updatecomment', function (req, res){
+	Comment.findById(req.body._id, function(err, comment){
     if (err) return console.error(err);
 	comment.username=req.body.username;
 	comment.content=req.body.content;
