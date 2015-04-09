@@ -50,7 +50,6 @@ router.get('/editcomment/:id', function (req, res){
     if (err) return console.error(err);
 	Comment.find(function(err, comments){
 		if (err) return console.error(err);
-		req.flash('success', '');
 		res.render( 'comments', {
 			comment : comment,
 			comments : comments,

@@ -3,9 +3,11 @@ extends layout
 block content
   .container
     h1 Profile Page
-    p.lead Say something worthwhile here.
+    p Welcome Your name
+    p Email #{user.local.email} #{user.facebook.email} #{user.facebook.id}
     br
-    h2 #{user.local.email} #{user.facebook.email} #{user.facebook.id}
+    if message.length > 0
+     .alert.alert-info #{message}
       &nbsp;
       a(href='/')
         button.btn.btn-default(type="button") Cancel

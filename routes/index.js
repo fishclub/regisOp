@@ -4,7 +4,7 @@ var passport = require('passport');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  	res.render('index', { title: 'Express' });
+   res.render('index', { title: 'Express'});
 });
 
 router.get('/helloworld', isLoggedIn, function(req, res) {
@@ -38,7 +38,8 @@ router.post('/login', passport.authenticate('local-login', {
 
 router.get('/profile', isLoggedIn, function(req, res) {
 	res.render('profile', {
-	    user : req.user
+	    user : req.user,
+        message: req.flash('loginMessage')
 	});
 });
 
