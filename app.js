@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('regisOp'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({cookie: { maxAge: 60000 }}));
+app.use(session({cookie: { maxAge: 6000000 }}));
 app.use(flash());
 
 // required for passport
