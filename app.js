@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var session = require('express-session');
+var passport = require('passport');
 
 mongoose.connect('mongodb://localhost:27017/test', function (err) {
     if (err) {
@@ -17,6 +18,7 @@ mongoose.connect('mongodb://localhost:27017/test', function (err) {
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var comments = require('./routes/models/comments');
+require('./config/passport')(passport);
 
 var app = express();
 
@@ -33,6 +35,13 @@ app.use(cookieParser('regisOp'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({cookie: { maxAge: 60000 }}));
 app.use(flash());
+
+// required for passport
+app.use(session({ secret: 'regisOpSecretKey' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash());
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/comments', comments);

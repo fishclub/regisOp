@@ -13,7 +13,7 @@ var initObj = new Comment();
 initObj.username='';
 initObj.content='';
 
-router.get('/listcomment', function (req, res){
+router.get('/listcomment', isLoggedIn, function (req, res){
 	Comment.find(function(err, comments){
 		if (err) return console.error(err);
 		res.render( 'comments', {
@@ -74,5 +74,11 @@ router.post('/updatecomment', function (req, res){
 	});
   });
 });
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+    res.redirect('/');
+}
 
 module.exports = router;
