@@ -2,8 +2,8 @@ extends layout
 
 block content
   .container
-        h2 Comments
-        table.table
+        h2 Comments #[a.btn.btn-primary(href="/comments/listcomment") Add]
+        table.table.table-striped.table-hover
          tr
           th.
             Username
@@ -15,9 +15,11 @@ block content
            tr
             td #{comment.username}
             td #{comment.content}			
-            td #[a.btn.btn-primary(href="/comments/editcomment/#{comment._id}") Edit] #[a.btn.btn-danger(href="/comments/delcomment/#{comment._id}") Delete]
-        h4 Add Comment
+            td #[a.btn-xs.btn-primary(href="/comments/editcomment/#{comment._id}") Edit] #[a.btn-xs.btn-danger(href="/comments/delcomment/#{comment._id}") Delete]
+        if message.length > 0
+         .alert.alert-info #{message}
         if comment.username==''
+          h4 Add Comment
           form(name="addcomment",method="post",action="/comments/addcomment")
            input(name="_id", type="hidden", value="#{comment._id}")		  
            .form-group
@@ -29,6 +31,7 @@ block content
            .form-group
            button.btn.btn-primary(type="submit") Save
         else
+          h4 Edit Comment
           form(name="addcomment",method="post",action="/comments/updatecomment")
            input(name="_id", type="hidden", value="#{comment._id}")
            .form-group

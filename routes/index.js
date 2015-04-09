@@ -11,6 +11,11 @@ router.get('/helloworld', isLoggedIn, function(req, res) {
     res.render('helloworld', { title: 'Hello, World!' })
 });
 
+router.get('/testmsg', function(req, res){
+	req.flash('test', 'it worked');
+  	res.send(JSON.stringify(req.flash('test')));
+});
+
 router.get('/signup', function(req, res) {
     res.render('signup', { message: req.flash('signupMessage') });
 });

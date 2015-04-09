@@ -18,7 +18,8 @@ router.get('/listcomment', isLoggedIn, function (req, res){
 		if (err) return console.error(err);
 		res.render( 'comments', {
 			comment : initObj,
-			comments : comments
+			comments : comments,
+			message : req.flash('success')
 		});
     });
 });
@@ -29,7 +30,8 @@ router.post('/addcomment', function(req, res){
 		objAdd.content = req.body.content;
 		objAdd.save(function(err, comment) {
 			if (err) return console.error(err);
-			res.redirect('./listcomment');
+			req.flash('success', 'Save success');
+			res.redirect('./editcomment/'+comment._id);
 		});
 });
 
@@ -37,6 +39,7 @@ router.get('/delcomment/:id', function (req, res){
 	Comment.findById(req.params.id, function(err, comment){
     comment.remove(function(err, comment){
 		if (err) return console.error(err);
+		req.flash('success', 'Delete success');
 		res.redirect('/comments/listcomment');
     });
   });
@@ -47,10 +50,11 @@ router.get('/editcomment/:id', function (req, res){
     if (err) return console.error(err);
 	Comment.find(function(err, comments){
 		if (err) return console.error(err);
+		req.flash('success', '');
 		res.render( 'comments', {
 			comment : comment,
 			comments : comments,
-			message: req.flash('error')
+			message: req.flash('success')
 		});
     });
   });
@@ -65,10 +69,11 @@ router.post('/updatecomment', function (req, res){
 		if (err) return console.error(err);
 			Comment.find(function(err, comments){
 			if (err) return console.error(err);
+			req.flash('success', 'Update success');
 			res.render( 'comments', {
 				comment : comment,
 				comments : comments,
-				message: req.flash('error')
+				message: req.flash('success')
 			});
 		});
 	});
