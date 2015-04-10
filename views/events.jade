@@ -1,0 +1,90 @@
+extends layout
+
+block content
+  .container
+        h2 Your Event #[a.btn.btn-primary(href="/events/listevent") Create Event]
+        table.table.table-striped.table-hover
+         tr
+          th.
+            Title
+          th.
+            Start Date
+          th.
+            End Date
+          th.
+            Location
+          th.
+            Description
+          th.
+            Oganization
+          th.
+            Action
+          for event in events
+           tr
+            td #{event.title}
+            td #{event.startDate}
+            td #{event.endDate}
+            td #{event.location}
+            td #{event.description}
+            td #{event.oganization}			
+            td #[a.btn-xs.btn-primary(href="/events/editevent/#{event._id}") Edit] #[a.btn-xs.btn-danger(href="/events/delevent/#{event._id}") Delete]
+        if message.length > 0
+         .alert.alert-info #{message}
+        if event.username==''
+          h4 Add Event
+          form(name="addevent",method="post",action="/events/addevent")
+           input(name="_id", type="hidden", value="#{event._id}")		  
+           .form-group
+           label Title: 
+           input.form-control(type="text", placeholder="title", name="title")
+           .form-group
+           label Start Date: 
+           input.form-control(type="datetime", placeholder="startDate", name="startDate")
+           .form-group
+           label End Date: 
+           input.form-control(type="datetime", placeholder="endDate", name="endDate")
+           .form-group
+           label Location: 
+           input.form-control(type="text", placeholder="location", name="location")
+           .form-group
+           label Description: 
+           input.form-control(type="text", placeholder="description", name="description")
+           .form-group
+           label Oganization: 
+           input.form-control(type="text", placeholder="oganization", name="oganization")
+           .form-group
+           button.btn.btn-primary(type="submit") Save
+        else
+          h4 Edit Event
+          form(name="addevent",method="post",action="/events/updateevent")
+           input(name="_id", type="hidden", value="#{event._id}")
+           .form-group
+           label Title: 
+           input.form-control(type="text", placeholder="title", name="title", value="#{event.title}")
+           .form-group
+           label Start Date: 
+           input.form-control(type="datetime", placeholder="startDate", name="startDate", value="#{event.startDate}")
+           .form-group
+           label End Date: 
+           input.form-control(type="datetime", placeholder="endDate", name="endDate", value="#{event.endDate}")
+           .form-group
+           label Location: 
+           input.form-control(type="text", placeholder="location", name="location", value="#{event.location}")
+           .form-group
+           label Description: 
+           input.form-control(type="text", placeholder="description", name="description", value="#{event.description}")
+           .form-group
+           label Oganization: 
+           input.form-control(type="text", placeholder="oganization", name="oganization", value="#{event.oganization}")
+           .form-group
+            .input-group.date(id="datetimepicker1")
+             input.form-control(type="text")
+             span.input-group-addon
+              span.glyphicon.glyphicon-calendar
+           .form-group
+           button.btn.btn-primary(type="submit") Update
+           script
+            | $(function () {
+            |  alert("test");
+            |  $('#datetimepicker1').datetimepicker();
+            | });
