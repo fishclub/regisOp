@@ -5,9 +5,9 @@ block content
       .starter-template
         h1 RegisOp Version 1.0
         p New project for thai startup.
+        if message.length > 0
+         .alert.alert-info #{message}
         a.btn.btn-default(href="/auth/facebook") Facebook
-        &nbsp;
-        a.btn.btn-default(href="/login") Login
         &nbsp;
         a.btn.btn-default(href="/signup") Signup
         &nbsp;

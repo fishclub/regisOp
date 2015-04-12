@@ -39,10 +39,16 @@ block content
            input.form-control(type="text", placeholder="title", name="title")
            .form-group
            label Start Date: 
-           input.form-control(type="datetime", placeholder="startDate", name="startDate")
+           .input-group.date(id="startDatePicker")
+            input.form-control(type="text", placeholder="startDate", name="startDate")
+            span.input-group-addon
+             span.glyphicon.glyphicon-calendar
            .form-group
            label End Date: 
-           input.form-control(type="datetime", placeholder="endDate", name="endDate")
+           .input-group.date(id="endDatePicker")
+            input.form-control(type="text", placeholder="endDate", name="endDate")
+            span.input-group-addon
+             span.glyphicon.glyphicon-calendar
            .form-group
            label Location: 
            input.form-control(type="text", placeholder="location", name="location")
@@ -54,6 +60,14 @@ block content
            input.form-control(type="text", placeholder="oganization", name="oganization")
            .form-group
            button.btn.btn-primary(type="submit") Save
+           script
+            | $(function () {
+            |  $('#startDatePicker').datetimepicker();
+            | });
+
+            | $(function () {
+            |  $('#endDatePicker').datetimepicker();
+            | });
         else
           h4 Edit Event
           form(name="addevent",method="post",action="/events/updateevent")
@@ -63,10 +77,16 @@ block content
            input.form-control(type="text", placeholder="title", name="title", value="#{event.title}")
            .form-group
            label Start Date: 
-           input.form-control(type="datetime", placeholder="startDate", name="startDate", value="#{event.startDate}")
+           .input-group.date(id="updateStartDatePicker")
+            input.form-control(type="text", placeholder="startDate", name="startDate", value="#{event.startDate}")
+            span.input-group-addon
+             span.glyphicon.glyphicon-calendar
            .form-group
            label End Date: 
-           input.form-control(type="datetime", placeholder="endDate", name="endDate", value="#{event.endDate}")
+           .input-group.date(id="updateEndDatePicker")
+            input.form-control(type="text", placeholder="endDate", name="endDate", value="#{event.endDate}")
+            span.input-group-addon
+             span.glyphicon.glyphicon-calendar
            .form-group
            label Location: 
            input.form-control(type="text", placeholder="location", name="location", value="#{event.location}")
@@ -77,14 +97,12 @@ block content
            label Oganization: 
            input.form-control(type="text", placeholder="oganization", name="oganization", value="#{event.oganization}")
            .form-group
-            .input-group.date(id="datetimepicker1")
-             input.form-control(type="text")
-             span.input-group-addon
-              span.glyphicon.glyphicon-calendar
-           .form-group
            button.btn.btn-primary(type="submit") Update
            script
             | $(function () {
-            |  alert("test");
-            |  $('#datetimepicker1').datetimepicker();
+            |  $('#updateStartDatePicker').datetimepicker();
+            | });
+
+            | $(function () {
+            |  $('#updateEndDatePicker').datetimepicker();
             | });

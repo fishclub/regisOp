@@ -2,9 +2,8 @@ extends layout
 
 block content
   .container
-    h1 Signup Page
-    p.lead Say something worthwhile here.
-    br
+    h1 Signup
+    p Create your account
     if message.length > 0
      .alert.alert-info #{message}
     form(role='form', action="/signup",method="post", style='max-width: 300px;')
@@ -18,3 +17,5 @@ block content
       &nbsp;
       a(href='/')
         button.btn.btn-primary(type="button") Cancel
+      p if have an account please 
+        a(href='/login') Login

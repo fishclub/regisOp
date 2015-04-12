@@ -2,8 +2,7 @@ extends layout
 
 block content
   .container
-    h1 Login Page
-    p.lead Say something worthwhile here.
+    h1 Login
     if message.length > 0
      .alert.alert-info #{message}
     form(role='form', action="/login",method="post", style='max-width: 300px;')
@@ -13,7 +12,9 @@ block content
       .form-group
         label Password: 
         input.form-control(type='password', name="password", placeholder='Password')
-      button.btn.btn-default(type='submit') Submit
+      button.btn.btn-default(type='submit') Login
       &nbsp;
       a(href='/')
-        button.btn.btn-primary(type="button") Cancel
+        button.btn.btn-default(type="button") Cancel
+       p if no account please 
+        a(href='/signup') Signup

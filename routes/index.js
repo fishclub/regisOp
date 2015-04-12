@@ -4,7 +4,7 @@ var passport = require('passport');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-   res.render('index', { title: 'Express'});
+   res.render('index', { title: 'Express', message: req.flash('success')});
 });
 
 router.get('/helloworld', isLoggedIn, function(req, res) {
@@ -45,6 +45,7 @@ router.get('/profile', isLoggedIn, function(req, res) {
 
 router.get('/logout', function(req, res) {
     req.logout();
+    req.flash('success', 'Logout success');
     res.redirect('/');
 });
 
@@ -68,7 +69,8 @@ router.get('/logout', function(req, res) {
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
-    res.redirect('/');
+    req.flash('loginMessage', 'Please login or signup');
+    res.redirect('/login');
 }
 
 module.exports = router;

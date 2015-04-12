@@ -5,8 +5,8 @@ var Schema   = mongoose.Schema;
 var EventSchema = new Schema({
 	username : String,
     title  : String,
-    startDate : Date,
-    endDate : Date,
+    startDate : String,
+    endDate : String,
     location : String,
     description : String,
     oganization : String
@@ -102,7 +102,8 @@ router.post('/updateevent', function (req, res){
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
-    res.redirect('/');
+    req.flash('loginMessage', 'Please login or signup');
+    res.redirect('/login');
 }
 
 module.exports = router;

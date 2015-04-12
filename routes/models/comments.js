@@ -82,7 +82,8 @@ router.post('/updatecomment', function (req, res){
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
-    res.redirect('/');
+    req.flash('loginMessage', 'Please login or signup');
+    res.redirect('/login');
 }
 
 module.exports = router;
