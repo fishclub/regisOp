@@ -57,7 +57,10 @@ block content
            input.form-control(type="text", placeholder="description", name="description")
            .form-group
            label Oganization: 
-           input.form-control(type="text", placeholder="oganization", name="oganization")
+           .input-group(id="findOrganization")
+            input.form-control(type="text", placeholder="oganization", name="oganization")
+            span.input-group-addon
+             span.glyphicon.glyphicon-search
            .form-group
            button.btn.btn-primary(type="submit") Save
            script
@@ -67,6 +70,10 @@ block content
 
             | $(function () {
             |  $('#endDatePicker').datetimepicker();
+            | });
+
+            | $(function () {
+            |  
             | });
         else
           h4 Edit Event
