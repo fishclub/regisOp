@@ -57,8 +57,9 @@ block content
            input.form-control(type="text", placeholder="description", name="description")
            .form-group
            label Oganization: 
-           .input-group(id="findOrganization")
+           .input-group
             input.form-control(type="text", placeholder="oganization", name="oganization")
+            a(data-toggle="modal", data-target="#myModal")
             span.input-group-addon
              span.glyphicon.glyphicon-search
            .form-group
@@ -70,10 +71,6 @@ block content
 
             | $(function () {
             |  $('#endDatePicker').datetimepicker();
-            | });
-
-            | $(function () {
-            |  
             | });
         else
           h4 Edit Event
@@ -113,3 +110,14 @@ block content
             | $(function () {
             |  $('#updateEndDatePicker').datetimepicker();
             | });
+        .modal.fade(id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+          .modal-dialog.wide-modal
+            .modal-content
+              .modal-header
+                button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                h4.myModalLabel.modal-title 
+                | test
+              .modal-body
+                  #container(style="width:90%; height:400px;")
+              .modal-footer
+                button.btn.btn-primary(type='button', data-dismiss='modal') Close
