@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  .container
+    h2 organization #[a.btn.btn-primary(href="/organizations/listorganization") Add]
+    table.table.table-striped.table-hover
+     tr
+      th.
+         Name
+      th.
+        Type
+      th.
+        Action
+      for organization in organizations
+       tr
+        td #{organization.orgName}
+        td #{organization.orgType}			
+        td #[a.btn-xs.btn-primary(href="/organizations/editorganization/#{organization._id}") Edit] #[a.btn-xs.btn-danger(href="/organizations/delorganization/#{organization._id}") Delete]
+    if message.length > 0
+     .alert.alert-info #{message}
+    if organization.orgName==''
+      h4 Add organization
+      form(name="addorganization",method="post",action="/organizations/addorganization")
+       input(name="_id", type="hidden", value="#{organization._id}")		  
+       .form-group
+       label Organization: 
+       input.form-control(type="text", placeholder="Organization Name", name="orgName")
+       .form-group
+       label Type: 
+       label.radio.inline
+       input(type="radio", name="orgType", value="Male", checked) 
+       |  Male 
+       input(type="radio", name="orgType", value="Female")
+       |  Female 
+       .form-group
+       button.btn.btn-primary(type="submit") Save
+    else
+      h4 Edit organization
+      form(name="addorganization",method="post",action="/organizations/updateorganization")
+       input(name="_id", type="hidden", value="#{organization._id}")
+       .form-group
+       label Organization: 
+       input.form-control(type="text", placeholder="orgName", name="orgName", value="#{organization.orgName}")
+       .form-group
+       label Type: 
+       label.radio.inline
+       input(type="radio", name="orgType", value="Male", checked=organization.orgType=='Male') 
+       |  Male 
+       input(type="radio", name="orgType", value="Female", checked=organization.orgType=='Female')
+       |  Female 
+       .form-group
+       button.btn.btn-primary(type="submit") Update
