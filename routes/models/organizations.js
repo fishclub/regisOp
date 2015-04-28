@@ -24,6 +24,13 @@ router.get('/listorganization', isLoggedIn, function (req, res){
     });
 });
 
+router.get('/listorganizationselect', isLoggedIn, function (req, res){
+	Organization.find(function(err, organizations){
+		if (err) return console.error(err);
+		return organizations;
+    });
+});
+
 router.post('/addorganization', function(req, res){
 	var objAdd = new Organization();
 		objAdd.orgName = req.body.orgName;

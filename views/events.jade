@@ -57,11 +57,10 @@ block content
            input.form-control(type="text", placeholder="description", name="description")
            .form-group
            label Oganization: 
-           .input-group
-            input.form-control(type="text", placeholder="oganization", name="oganization")
-            span.input-group-addon
-             a(data-toggle="modal", data-target="#myModal", href="#")
-              span.glyphicon.glyphicon-search
+           select.form-control(name='oganization')
+             option(value='')
+              each organization in organizations
+               option(value=organization.orgName, selected=select)= organization.orgName
            .form-group
            button.btn.btn-primary(type="submit") Save
            script
@@ -99,11 +98,10 @@ block content
            input.form-control(type="text", placeholder="description", name="description", value="#{event.description}")
            .form-group
            label Oganization: 
-           .input-group
-            input.form-control(type="text", placeholder="oganization", name="oganization", value="#{event.oganization}")
-            span.input-group-addon
-             a(data-toggle="modal", data-target="#myModal", href="#")
-              span.glyphicon.glyphicon-search
+           select.form-control(name='oganization')
+             option(value='')
+              each organization in organizations
+               option(value=organization.orgName, selected=event.oganization==organization.orgName)= organization.orgName
            .form-group
            button.btn.btn-primary(type="submit") Update
            script
@@ -121,15 +119,13 @@ block content
                 button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
                 h4.myModalLabel.modal-title Organization
               .modal-body
-                .container(style="width:90%; height:400px;")
-                 input(name="_id", type="hidden", value="")      
-                 .form-group
-                 label Username: 
-                 input.form-control(type="text", placeholder="username", name="username")
-                 .form-group
-                 label Content: 
-                 input.form-control(type="text", placeholder="content", name="content")
-                 .form-group
-                 button.btn.btn-primary(type="submit") Save
+                table.table.table-striped.table-hover
+                 tr
+                  th.
+                     Name
+                  th.
+                    Type
+                  th.
+                    Action
               .modal-footer
                 button.btn.btn-primary(type='button', data-dismiss='modal') Close

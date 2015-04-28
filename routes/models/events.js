@@ -13,6 +13,8 @@ var EventSchema = new Schema({
 });
 
 var Event = mongoose.model('event', EventSchema);
+var organizations = require('./organizations');
+var Organization = mongoose.model('organization', organizations);
 
 var initObj = new Event();
 initObj.username='';
@@ -26,10 +28,14 @@ initObj.oganization='';
 router.get('/listevent', isLoggedIn, function (req, res){
 	Event.find(function(err, events){
 		if (err) return console.error(err);
+		Organization.find(function(err, organizations){
+		if (err) return console.error(err);
 		res.render( 'events', {
 			event : initObj,
 			events : events,
+			organizations : organizations,
 			message : req.flash('success')
+		});
 		});
     });
 });
@@ -65,10 +71,14 @@ router.get('/editevent/:id', function (req, res){
     if (err) return console.error(err);
 	Event.find(function(err, events){
 		if (err) return console.error(err);
+		Organization.find(function(err, organizations){
+		if (err) return console.error(err);
 		res.render( 'events', {
 			event : event,
 			events : events,
+			organizations : organizations,
 			message: req.flash('success')
+		});
 		});
     });
   });
@@ -88,11 +98,15 @@ router.post('/updateevent', function (req, res){
 		if (err) return console.error(err);
 			Event.find(function(err, events){
 			if (err) return console.error(err);
+			Organization.find(function(err, organizations){
+			if (err) return console.error(err);
 			req.flash('success', 'Update success');
 			res.render( 'events', {
 				event : event,
 				events : events,
+				organizations : organizations,
 				message: req.flash('success')
+			});
 			});
 		});
 	});
