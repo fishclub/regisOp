@@ -93,4 +93,11 @@ function isLoggedIn(req, res, next) {
     res.redirect('/login');
 }
 
+router.getOrgList = function() {
+  Organization.find(function(err, organizations){
+		if (err) return console.error(err);
+		return organizations;
+    });
+};
+
 module.exports = router;

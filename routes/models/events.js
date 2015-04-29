@@ -25,17 +25,16 @@ initObj.location='';
 initObj.description='';
 initObj.oganization='';
 
-router.get('/listevent', isLoggedIn, function (req, res){
+router.get('/listevent', function (req, res){
 	Event.find(function(err, events){
 		if (err) return console.error(err);
-		Organization.find(function(err, organizations){
-		if (err) return console.error(err);
+		
 		res.render( 'events', {
 			event : initObj,
 			events : events,
-			organizations : organizations,
+			organizations : "",
 			message : req.flash('success')
-		});
+		
 		});
     });
 });
