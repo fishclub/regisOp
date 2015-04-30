@@ -4,7 +4,8 @@ block content
   .container
     h1 Profile Page
     p Welcome Your name
-    p Email #{user.local.email} #{user.facebook.email} #{user.facebook.id}
+    p Id: #{user._id}
+    p Email: #{user.local.email} #{user.facebook.email}
     br
     if message.length > 0
      .alert.alert-info #{message}

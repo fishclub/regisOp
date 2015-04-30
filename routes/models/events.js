@@ -3,7 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 var EventSchema = new Schema({
-	username : String,
+	userId : String,
     title  : String,
     startDate : String,
     endDate : String,
@@ -17,7 +17,7 @@ var organizations = require('./organizations');
 var Organization = mongoose.model('organization', organizations);
 
 var initObj = new Event();
-initObj.username='';
+initObj.userId='';
 initObj.title ='';
 initObj.startDate= new Date();
 initObj.endDate= new Date();
@@ -25,23 +25,24 @@ initObj.location='';
 initObj.description='';
 initObj.oganization='';
 
-router.get('/listevent', function (req, res){
-	Event.find(function(err, events){
+router.get('/listevent', isLoggedIn, function (req, res){
+	Event.find({ 'userId' :  req.user._id }, function(err, events){
 		if (err) return console.error(err);
-		
+		Organization.find({ 'userId' :  req.user._id }, function(err, organizations){
+		if (err) return console.error(err);
 		res.render( 'events', {
 			event : initObj,
 			events : events,
-			organizations : "",
+			organizations : organizations,
 			message : req.flash('success')
-		
+		});
 		});
     });
 });
 
 router.post('/addevent', function(req, res){
 	var objAdd = new Event();
-		objAdd.username = req.body.username;
+		objAdd.userId = req.user._id;
 		objAdd.title = req.body.title;
 		objAdd.startDate = req.body.startDate;
 		objAdd.endDate = req.body.endDate;
@@ -68,9 +69,9 @@ router.get('/delevent/:id', function (req, res){
 router.get('/editevent/:id', function (req, res){
 	Event.findById(req.params.id, function(err, event){
     if (err) return console.error(err);
-	Event.find(function(err, events){
+	Event.find({ 'userId' :  req.user._id }, function(err, events){
 		if (err) return console.error(err);
-		Organization.find(function(err, organizations){
+		Organization.find({ 'userId' :  req.user._id }, function(err, organizations){
 		if (err) return console.error(err);
 		res.render( 'events', {
 			event : event,
@@ -86,7 +87,7 @@ router.get('/editevent/:id', function (req, res){
 router.post('/updateevent', function (req, res){
 	Event.findById(req.body._id, function(err, event){
     if (err) return console.error(err);
-	event.username=req.body.username;
+	event.userId=req.user._id;
 	event.title=req.body.title;
 	event.startDate=req.body.startDate;
 	event.endDate=req.body.endDate;

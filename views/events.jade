@@ -30,7 +30,7 @@ block content
             td #[a.btn-xs.btn-primary(href="/events/editevent/#{event._id}") Edit] #[a.btn-xs.btn-danger(href="/events/delevent/#{event._id}") Delete]
         if message.length > 0
          .alert.alert-info #{message}
-        if event.username==''
+        if event.userId==''
           h4 Add Event
           form(name="addevent",method="post",action="/events/addevent")
            input(name="_id", type="hidden", value="#{event._id}")		  

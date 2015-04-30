@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 var OrganizationSchema = new Schema({
+	userId : String,
 	orgName : String,
     orgType  : String
 });
@@ -10,11 +11,12 @@ var OrganizationSchema = new Schema({
 var Organization = mongoose.model('organization', OrganizationSchema);
 
 var initObj = new Organization();
+initObj.userId='';
 initObj.orgName='';
 initObj.orgType='';
 
 router.get('/listorganization', isLoggedIn, function (req, res){
-	Organization.find(function(err, organizations){
+	Organization.find({ 'userId' :  req.user._id }, function(err, organizations){
 		if (err) return console.error(err);
 		res.render( 'organizations', {
 			organization : initObj,
@@ -24,15 +26,9 @@ router.get('/listorganization', isLoggedIn, function (req, res){
     });
 });
 
-router.get('/listorganizationselect', isLoggedIn, function (req, res){
-	Organization.find(function(err, organizations){
-		if (err) return console.error(err);
-		return organizations;
-    });
-});
-
 router.post('/addorganization', function(req, res){
 	var objAdd = new Organization();
+		objAdd.userId = req.user._id;
 		objAdd.orgName = req.body.orgName;
 		objAdd.orgType = req.body.orgType;
 		objAdd.save(function(err, organization) {
@@ -55,7 +51,7 @@ router.get('/delorganization/:id', function (req, res){
 router.get('/editorganization/:id', function (req, res){
 	Organization.findById(req.params.id, function(err, organization){
     if (err) return console.error(err);
-	Organization.find(function(err, organizations){
+	Organization.find({ 'userId' :  req.user._id }, function(err, organizations){
 		if (err) return console.error(err);
 		res.render( 'organizations', {
 			organization : organization,
@@ -69,6 +65,7 @@ router.get('/editorganization/:id', function (req, res){
 router.post('/updateorganization', function (req, res){
 	Organization.findById(req.body._id, function(err, organization){
     if (err) return console.error(err);
+    organization.userId = req.user._id;
 	organization.orgName=req.body.orgName;
 	organization.orgType=req.body.orgType;
 	organization.save(function(err, organization){
@@ -92,12 +89,5 @@ function isLoggedIn(req, res, next) {
     req.flash('loginMessage', 'Please login or signup');
     res.redirect('/login');
 }
-
-router.getOrgList = function() {
-  Organization.find(function(err, organizations){
-		if (err) return console.error(err);
-		return organizations;
-    });
-};
 
 module.exports = router;
