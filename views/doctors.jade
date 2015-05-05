@@ -1,0 +1,79 @@
+extends layout
+
+block content
+  .container
+    h2 Doctor #[a.btn.btn-primary(href="/doctors/listdoctor") Add]
+    table.table.table-striped.table-hover
+     tr
+      th.
+        ID
+      th.
+        Name
+      th.
+        Surname
+      th.
+        Gender
+      th.
+        Ext. Phone
+      th.
+        Action
+      for doctor in doctors
+       tr
+        td #{doctor.doctorId}
+        td #{doctor.name}		
+        td #{doctor.surName}   
+        td #{doctor.gender} 
+        td #{doctor.extPhone}   	
+        td #[a.btn-xs.btn-primary(href="/doctors/editdoctor/#{doctor._id}") Edit] #[a.btn-xs.btn-danger(href="/doctors/deldoctor/#{doctor._id}") Delete]
+    if message.length > 0
+     .alert.alert-info #{message}
+    if doctor.doctorId==''
+      h4 Add doctor
+      form(name="adddoctor",method="post",action="/doctors/adddoctor")
+       input(name="_id", type="hidden", value="#{doctor._id}")		  
+       .form-group
+       label ID: 
+       input.form-control(type="text", placeholder="Id", name="doctorId")
+       .form-group
+       label Name: 
+       input.form-control(type="text", placeholder="Name", name="name")
+       .form-group
+       label Surname: 
+       input.form-control(type="text", placeholder="Surname", name="surName")
+       .form-group
+       label Gender: 
+       label.radio.inline
+       input(type="radio", name="gender", value="Male", checked) 
+       |  Male 
+       input(type="radio", name="gender", value="Female")
+       |  Female 
+       .form-group
+       label Ext. Phone: 
+       input.form-control(type="text", placeholder="Ext. Phone", name="extPhone")
+       .form-group
+       button.btn.btn-primary(type="submit") Save
+    else
+      h4 Edit doctor
+      form(name="adddoctor",method="post",action="/doctors/updatedoctor")
+       input(name="_id", type="hidden", value="#{doctor._id}")
+       .form-group
+       label ID: 
+       input.form-control(type="text", placeholder="Id", name="doctorId", value="#{doctor.doctorId}")
+       .form-group
+       label Name: 
+       input.form-control(type="text", placeholder="Name", name="name", value="#{doctor.name}")
+       .form-group
+       label Surname: 
+       input.form-control(type="text", placeholder="Surname", name="surName", value="#{doctor.surName}")
+       .form-group
+       label Gender: 
+       label.radio.inline
+       input(type="radio", name="gender", value="Male", checked=doctor.gender=='Male') 
+       |  Male 
+       input(type="radio", name="gender", value="Female", checked=doctor.gender=='Female')
+       |  Female 
+       .form-group
+       label Ext. Phone: 
+       input.form-control(type="text", placeholder="Ext. Phone", name="extPhone", value="#{doctor.extPhone}")
+       .form-group
+       button.btn.btn-primary(type="submit") Update

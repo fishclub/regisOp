@@ -20,6 +20,8 @@ var users = require('./routes/users');
 var comments = require('./routes/models/comments');
 var events = require('./routes/models/events');
 var organizations = require('./routes/models/organizations');
+var staffs = require('./routes/models/staffs');
+var doctors = require('./routes/models/doctors');
 require('./config/passport')(passport);
 
 var app = express();
@@ -49,6 +51,8 @@ app.use('/users', users);
 app.use('/comments', comments);
 app.use('/events', events);
 app.use('/organizations', organizations);
+app.use('/staffs', staffs);
+app.use('/doctors', doctors);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
