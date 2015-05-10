@@ -9,12 +9,15 @@ var EventSchema = new Schema({
     endDate : String,
     location : String,
     description : String,
-    oganization : String
+    oganization : String,
+    doctor : String
 });
 
 var Event = mongoose.model('event', EventSchema);
 var organizations = require('./organizations');
 var Organization = mongoose.model('organization', organizations);
+var doctors = require('./doctors');
+var Doctor = mongoose.model('doctor', doctors);
 
 var initObj = new Event();
 initObj.userId='';
@@ -24,17 +27,22 @@ initObj.endDate= new Date();
 initObj.location='';
 initObj.description='';
 initObj.oganization='';
+initObj.doctor='';
 
 router.get('/listevent', isLoggedIn, function (req, res){
 	Event.find({ 'userId' :  req.user._id }, function(err, events){
 		if (err) return console.error(err);
 		Organization.find({ 'userId' :  req.user._id }, function(err, organizations){
 		if (err) return console.error(err);
+		Doctor.find({ 'userId' :  req.user._id }, function(err, doctors){
+		if (err) return console.error(err);
 		res.render( 'events', {
 			event : initObj,
 			events : events,
 			organizations : organizations,
+			doctors : doctors,
 			message : req.flash('success')
+		});
 		});
 		});
     });
@@ -49,6 +57,7 @@ router.post('/addevent', function(req, res){
 		objAdd.location = req.body.location;
 		objAdd.description = req.body.description;
 		objAdd.oganization = req.body.oganization;
+		objAdd.doctor = req.body.doctor;
 		objAdd.save(function(err, event) {
 			if (err) return console.error(err);
 			req.flash('success', 'Save success');
@@ -73,11 +82,15 @@ router.get('/editevent/:id', function (req, res){
 		if (err) return console.error(err);
 		Organization.find({ 'userId' :  req.user._id }, function(err, organizations){
 		if (err) return console.error(err);
+		Doctor.find({ 'userId' :  req.user._id }, function(err, doctors){
+		if (err) return console.error(err);
 		res.render( 'events', {
 			event : event,
 			events : events,
 			organizations : organizations,
+			doctors : doctors,
 			message: req.flash('success')
+		});
 		});
 		});
     });
@@ -94,18 +107,23 @@ router.post('/updateevent', function (req, res){
 	event.location=req.body.location;
 	event.description=req.body.description;
 	event.oganization=req.body.oganization;
+	event.doctor=req.body.doctor;
 	event.save(function(err, event){
 		if (err) return console.error(err);
-			Event.find(function(err, events){
+			Event.find({ 'userId' :  req.user._id }, function(err, events){
 			if (err) return console.error(err);
-			Organization.find(function(err, organizations){
+			Organization.find({ 'userId' :  req.user._id }, function(err, organizations){
+			if (err) return console.error(err);
+			Doctor.find({ 'userId' :  req.user._id }, function(err, doctors){
 			if (err) return console.error(err);
 			req.flash('success', 'Update success');
 			res.render( 'events', {
 				event : event,
 				events : events,
 				organizations : organizations,
+				doctors : doctors,
 				message: req.flash('success')
+			});
 			});
 			});
 		});

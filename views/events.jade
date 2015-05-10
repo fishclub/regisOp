@@ -12,11 +12,9 @@ block content
           th.
             End Date
           th.
-            Location
-          th.
-            Description
-          th.
             Oganization
+          th.
+            Doctor
           th.
             Action
           for event in events
@@ -24,9 +22,8 @@ block content
             td #{event.title}
             td #{event.startDate}
             td #{event.endDate}
-            td #{event.location}
-            td #{event.description}
             td #{event.oganization}			
+            td #{event.doctor}      
             td #[a.btn-xs.btn-primary(href="/events/editevent/#{event._id}") Edit] #[a.btn-xs.btn-danger(href="/events/delevent/#{event._id}") Delete]
         if message.length > 0
          .alert.alert-info #{message}
@@ -61,6 +58,12 @@ block content
              option(value='')
               each organization in organizations
                option(value=organization.orgName, selected=select)= organization.orgName
+           .form-group
+           label Doctor: 
+           select.form-control(name='doctor')
+             option(value='')
+              each doctor in doctors
+               option(value=doctor.name, selected=select)= doctor.name
            .form-group
            button.btn.btn-primary(type="submit") Save
            script
@@ -102,6 +105,13 @@ block content
              option(value='')
               each organization in organizations
                option(value=organization.orgName, selected=event.oganization==organization.orgName)= organization.orgName
+           .form-group
+           label Doctor: 
+           select.form-control(name='doctor')
+             option(value='')
+              each doctor in doctors
+               option(value=doctor.name, selected=event.doctor==doctor.name)= doctor.name
+           .form-group
            .form-group
            button.btn.btn-primary(type="submit") Update
            script

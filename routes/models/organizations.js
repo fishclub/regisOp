@@ -70,7 +70,7 @@ router.post('/updateorganization', function (req, res){
 	organization.orgType=req.body.orgType;
 	organization.save(function(err, organization){
 		if (err) return console.error(err);
-			Organization.find(function(err, organizations){
+			Organization.find({ 'userId' :  req.user._id }, function(err, organizations){
 			if (err) return console.error(err);
 			req.flash('success', 'Update success');
 			res.render( 'organizations', {
