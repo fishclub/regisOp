@@ -3,28 +3,30 @@ extends layout
 block content
   .container
         h2 Your Event #[a.btn.btn-primary(href="/events/listevent") Create Event]
-        table.table.table-striped.table-hover
-         tr
-          th.
-            Title
-          th.
-            Start Date
-          th.
-            End Date
-          th.
-            Oganization
-          th.
-            Doctor
-          th.
-            Action
-          for event in events
+        table.display(id="mainTable")
+         thead
            tr
-            td #{event.title}
-            td #{event.startDate}
-            td #{event.endDate}
-            td #{event.oganization}			
-            td #{event.doctor}      
-            td #[a.btn-xs.btn-primary(href="/events/editevent/#{event._id}") Edit] #[a.btn-xs.btn-danger(href="/events/delevent/#{event._id}") Delete]
+            th.
+              Title
+            th.
+              Start Date
+            th.
+              End Date
+            th.
+              Oganization
+            th.
+              Doctor
+            th.
+              Action
+          tbody
+            for event in events
+             tr
+              td #{event.title}
+              td #{event.startDate}
+              td #{event.endDate}
+              td #{event.oganization}			
+              td #{event.doctor}      
+              td #[a.btn-xs.btn-primary(href="/events/editevent/#{event._id}") Edit] #[a.btn-xs.btn-danger(href="/events/delevent/#{event._id}") Delete]
         if message.length > 0
          .alert.alert-info #{message}
         if event.userId==''
@@ -139,3 +141,7 @@ block content
                     Action
               .modal-footer
                 button.btn.btn-primary(type='button', data-dismiss='modal') Close
+  script
+    | $(function () {
+    |  $('#mainTable').dataTable();
+    | });

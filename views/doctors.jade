@@ -3,28 +3,30 @@ extends layout
 block content
   .container
     h2 Doctor #[a.btn.btn-primary(href="/doctors/listdoctor") Add]
-    table.table.table-striped.table-hover
-     tr
-      th.
-        ID
-      th.
-        Name
-      th.
-        Surname
-      th.
-        Gender
-      th.
-        Ext. Phone
-      th.
-        Action
-      for doctor in doctors
+    table.display(id="mainTable")
+     thead
        tr
-        td #{doctor.doctorId}
-        td #{doctor.name}		
-        td #{doctor.surName}   
-        td #{doctor.gender} 
-        td #{doctor.extPhone}   	
-        td #[a.btn-xs.btn-primary(href="/doctors/editdoctor/#{doctor._id}") Edit] #[a.btn-xs.btn-danger(href="/doctors/deldoctor/#{doctor._id}") Delete]
+        th.
+          ID
+        th.
+          Name
+        th.
+          Surname
+        th.
+          Gender
+        th.
+          Ext. Phone
+        th.
+          Action
+      tbody
+        for doctor in doctors
+         tr
+          td #{doctor.doctorId}
+          td #{doctor.name}		
+          td #{doctor.surName}   
+          td #{doctor.gender} 
+          td #{doctor.extPhone}   	
+          td #[a.btn-xs.btn-primary(href="/doctors/editdoctor/#{doctor._id}") Edit] #[a.btn-xs.btn-danger(href="/doctors/deldoctor/#{doctor._id}") Delete]
     if message.length > 0
      .alert.alert-info #{message}
     if doctor.doctorId==''
@@ -77,3 +79,7 @@ block content
        input.form-control(type="text", placeholder="Ext. Phone", name="extPhone", value="#{doctor.extPhone}")
        .form-group
        button.btn.btn-primary(type="submit") Update
+  script
+    | $(function () {
+    |  $('#mainTable').dataTable();
+    | });

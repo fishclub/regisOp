@@ -3,14 +3,16 @@ extends layout
 block content
   .container
     h2 organization #[a.btn.btn-primary(href="/organizations/listorganization") Add]
-    table.table.table-striped.table-hover
-     tr
-      th.
-         Name
-      th.
-        Type
-      th.
-        Action
+    table.display(id="mainTable")
+     thead
+       tr
+        th.
+           Name
+        th.
+          Type
+        th.
+          Action
+     tbody
       for organization in organizations
        tr
         td #{organization.orgName}
@@ -50,3 +52,7 @@ block content
        |  Branch 
        .form-group
        button.btn.btn-primary(type="submit") Update
+  script
+    | $(function () {
+    |  $('#mainTable').dataTable();
+    | });

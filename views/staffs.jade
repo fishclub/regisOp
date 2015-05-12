@@ -3,28 +3,30 @@ extends layout
 block content
   .container
     h2 Staff #[a.btn.btn-primary(href="/staffs/liststaff") Add]
-    table.table.table-striped.table-hover
-     tr
-      th.
-        ID
-      th.
-        Name
-      th.
-        Surname
-      th.
-        Gender
-      th.
-        Ext. Phone
-      th.
-        Action
-      for staff in staffs
+    table.display(id="mainTable")
+     thead
        tr
-        td #{staff.staffId}
-        td #{staff.name}		
-        td #{staff.surName}   
-        td #{staff.gender} 
-        td #{staff.extPhone}   	
-        td #[a.btn-xs.btn-primary(href="/staffs/editstaff/#{staff._id}") Edit] #[a.btn-xs.btn-danger(href="/staffs/delstaff/#{staff._id}") Delete]
+        th.
+          ID
+        th.
+          Name
+        th.
+          Surname
+        th.
+          Gender
+        th.
+          Ext. Phone
+        th.
+          Action
+      tbody
+        for staff in staffs
+         tr
+          td #{staff.staffId}
+          td #{staff.name}		
+          td #{staff.surName}   
+          td #{staff.gender} 
+          td #{staff.extPhone}   	
+          td #[a.btn-xs.btn-primary(href="/staffs/editstaff/#{staff._id}") Edit] #[a.btn-xs.btn-danger(href="/staffs/delstaff/#{staff._id}") Delete]
     if message.length > 0
      .alert.alert-info #{message}
     if staff.staffId==''
@@ -77,3 +79,7 @@ block content
        input.form-control(type="text", placeholder="Ext. Phone", name="extPhone", value="#{staff.extPhone}")
        .form-group
        button.btn.btn-primary(type="submit") Update
+  script
+    | $(function () {
+    |  $('#mainTable').dataTable();
+    | });
