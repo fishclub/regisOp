@@ -16,6 +16,10 @@ html
     link(rel='stylesheet', href='/bootstrap/css/bootstrap-datetimepicker.min.css')
     link(rel='stylesheet', href='/bootstrap/css/jquery.dataTables.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(type="text/javascript").
+      $(function () { 
+       $('#mainTable').dataTable();
+      });        
   body
   .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
       .container
@@ -41,3 +45,18 @@ html
             li
               a(href='/profile') Profile
     block content
+.modal.fade(id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel" aria-hidden="true")
+  .modal-dialog.wide-modal
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        h4 Confirm Delete
+      .modal-body
+        p You are about to delete?
+      .modal-footer
+        button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+        a.btn.btn-info.btn-ok Delete
+script(type="text/javascript").
+  $('#delModal').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+  });
