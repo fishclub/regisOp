@@ -7,7 +7,7 @@ block content
         span.glyphicon.glyphicon-plus
     if message.length > 0
      .alert.alert-info #{message}
-    table.display(id="mainTable")
+    table.table.table-striped.table-bordered(id="mainTable")
       thead
        tr
         th.
@@ -30,11 +30,11 @@ block content
           td #{doctor.surName}   
           td #{doctor.gender} 
           td #{doctor.extPhone}   	
-          td 
+          td(align="center")
             h5
               a(href="#" data-href='/doctors/editdoctor/#{doctor._id}' data-toggle="modal" data-target="#editModal#{doctor._id}")
                 span.glyphicon.glyphicon-pencil
-              |  
+              | 
               a(href="#" data-href="/doctors/deldoctor/#{doctor._id}" data-toggle="modal" data-target="#delModal")
                 span.glyphicon.glyphicon-trash
           .modal.fade(id="editModal#{doctor._id}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
