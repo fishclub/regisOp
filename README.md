@@ -39,29 +39,55 @@ tr(data-url="/doctors/editdoctor/#{doctor._id}")
         button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
         h4.addModalLabel.modal-title Add Doctor
       .modal-body
-        h4 Add doctor
-        form(name="adddoctor",method="post",action="/doctors/adddoctor")
-         input(name="_id", type="hidden", value="#{doctor._id}")      
-         .form-group
-         label ID: 
-         input.form-control(type="text", placeholder="Id", name="doctorId")
-         .form-group
-         label Name: 
-         input.form-control(type="text", placeholder="Name", name="name")
-         .form-group
-         label Surname: 
-         input.form-control(type="text", placeholder="Surname", name="surName")
-         .form-group
-         label Gender: 
-         label.radio.inline
-         input(type="radio", name="gender", value="Male", checked) 
-         |  Male 
-         input(type="radio", name="gender", value="Female")
-         |  Female 
-         .form-group
-         label Ext. Phone: 
-         input.form-control(type="text", placeholder="Ext. Phone", name="extPhone")
-         .form-group
-         button.btn.btn-primary(type="submit") Save
-      .modal-footer
-        button.btn.btn-primary(type='button', data-dismiss='modal') Close
+   
+
+   if doctor.doctorId==''
+      h4 Add doctor
+      form(name="adddoctor",method="post",action="/doctors/adddoctor")
+       input(name="_id", type="hidden", value="#{doctor._id}")      
+       .form-group
+       label ID: 
+       input.form-control(type="text", placeholder="Id", name="doctorId")
+       .form-group
+       label Name: 
+       input.form-control(type="text", placeholder="Name", name="name")
+       .form-group
+       label Surname: 
+       input.form-control(type="text", placeholder="Surname", name="surName")
+       .form-group
+       label Gender: 
+       label.radio.inline
+       input(type="radio", name="gender", value="Male", checked) 
+       |  Male 
+       input(type="radio", name="gender", value="Female")
+       |  Female 
+       .form-group
+       label Ext. Phone: 
+       input.form-control(type="text", placeholder="Ext. Phone", name="extPhone")
+       .form-group
+       button.btn.btn-primary(type="submit") Save
+    else
+      h4 Edit doctor
+      form(name="adddoctor",method="post",action="/doctors/updatedoctor")
+       input(name="_id", type="hidden", value="#{doctor._id}")
+       .form-group
+       label ID: 
+       input.form-control(type="text", placeholder="Id", name="doctorId", value="#{doctor.doctorId}")
+       .form-group
+       label Name: 
+       input.form-control(type="text", placeholder="Name", name="name", value="#{doctor.name}")
+       .form-group
+       label Surname: 
+       input.form-control(type="text", placeholder="Surname", name="surName", value="#{doctor.surName}")
+       .form-group
+       label Gender: 
+       label.radio.inline
+       input(type="radio", name="gender", value="Male", checked=doctor.gender=='Male') 
+       |  Male 
+       input(type="radio", name="gender", value="Female", checked=doctor.gender=='Female')
+       |  Female 
+       .form-group
+       label Ext. Phone: 
+       input.form-control(type="text", placeholder="Ext. Phone", name="extPhone", value="#{doctor.extPhone}")
+       .form-group
+       button.btn.btn-primary(type="submit") Update
