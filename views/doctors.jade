@@ -47,11 +47,11 @@ block content
                     form(name="adddoctor",method="post",action="/doctors/updatedoctor")
                      input(name="_id", type="hidden", value="#{doctor._id}")
                      .form-group
-                     label ID: 
-                     input.form-control(type="text", placeholder="Id", name="doctorId", value="#{doctor.doctorId}")
+                     label * ID: 
+                     input.form-control(type="text", placeholder="ID", name="doctorId", value="#{doctor.doctorId}", required)
                      .form-group
-                     label Name: 
-                     input.form-control(type="text", placeholder="Name", name="name", value="#{doctor.name}")
+                     label * Name: 
+                     input.form-control(type="text", placeholder="Name", name="name", value="#{doctor.name}", required)
                      .form-group
                      label Surname: 
                      input.form-control(type="text", placeholder="Surname", name="surName", value="#{doctor.surName}")
@@ -79,11 +79,11 @@ block content
           form(name="adddoctor",method="post",action="/doctors/adddoctor")
            input(name="_id", type="hidden", value="#{doctor._id}")      
            .form-group
-           label ID: 
-           input.form-control(type="text", placeholder="Id", name="doctorId")
+           label * ID: 
+           input.form-control(type="text", placeholder="ID", name="doctorId", required)
            .form-group
-           label Name: 
-           input.form-control(type="text", placeholder="Name", name="name")
+           label * Name: 
+           input.form-control(type="text", placeholder="Name", name="name", required)
            .form-group
            label Surname: 
            input.form-control(type="text", placeholder="Surname", name="surName")
