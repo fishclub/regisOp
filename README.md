@@ -10,6 +10,9 @@ http://start.jcolemorrison.com/quick-tip-organizing-routes-in-large-express-4-x-
 
 https://datatables.net/examples/styling/bootstrap.html
 
+http://stackoverflow.com/questions/20858299/model-find-toarray-claiming-to-not-have-toarray-method
+var query
+
 .form-group
            label Oganization: 
            .input-group

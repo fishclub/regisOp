@@ -8,7 +8,8 @@ var DoctorSchema = new Schema({
     name  : String,
     surName  : String,
     gender  : String,
-    extPhone  : String
+    extPhone  : String,
+    modifiedDT : Date
 });
 
 var Doctor = mongoose.model('doctor', DoctorSchema);
@@ -22,7 +23,7 @@ initObj.gender='';
 initObj.extPhone='';
 
 router.get('/listdoctor', isLoggedIn, function (req, res){
-	Doctor.find({ 'userId' :  req.user._id }, function(err, doctors){
+	Doctor.find().where('userId',req.user._id).sort('-modifiedDT').exec(function(err, doctors){
 		if (err) return console.error(err);
 		res.render( 'doctors', {
 			doctor : initObj,
@@ -40,6 +41,7 @@ router.post('/adddoctor', function(req, res){
 		objAdd.surName = req.body.surName;
 		objAdd.gender = req.body.gender;
 		objAdd.extPhone = req.body.extPhone;
+		objAdd.modifiedDT = Date.now();
 		objAdd.save(function(err, doctor) {
 			if (err) return console.error(err);
 			req.flash('success', 'Save success');
@@ -55,6 +57,15 @@ router.get('/deldoctor/:id', function (req, res){
 		res.redirect('/doctors/listdoctor');
     });
   });
+});
+
+router.get('/viewdoctor/:id', function (req, res){
+	console.log(req.params.id);
+	Doctor.findById(req.params.id, function(err, doctor){
+	    if (err) return console.error(err);
+	    console.log(doctor);
+		res.send(doctor);
+	});
 });
 
 router.get('/editdoctor/:id', function (req, res){
@@ -80,16 +91,13 @@ router.post('/updatedoctor', function (req, res){
 	doctor.surName=req.body.surName;
 	doctor.gender=req.body.gender;
 	doctor.extPhone=req.body.extPhone;
+	doctor.modifiedDT = Date.now();
 	doctor.save(function(err, doctor){
 		if (err) return console.error(err);
 			Doctor.find(function(err, doctors){
 			if (err) return console.error(err);
 			req.flash('success', 'Update success');
-			res.render( 'doctors', {
-				doctor : doctor,
-				doctors : doctors,
-				message: req.flash('success')
-			});
+			res.redirect('/doctors/listdoctor');
 		});
 	});
   });

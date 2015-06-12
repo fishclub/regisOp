@@ -21,15 +21,26 @@ block content
         th.
           Ext. Phone
         th.
+          Modified Date
+        th.
           Action
       tbody
+        script(type="text/javascript").
+          $(function(){
+            $('#viewMode').click(function(){
+                $.get( $('#viewMode').attr('data-href'), function(data) {
+                  $('#view_id').val(data.doctorId);
+                });
+            });
+          });
         for doctor in doctors
          tr
           td #{doctor.doctorId}
           td #{doctor.name}		
           td #{doctor.surName}   
           td #{doctor.gender} 
-          td #{doctor.extPhone}   	
+          td #{doctor.extPhone} 
+          td #{doctor.modifiedDT.toDateString()}   	
           td(align="center")
             h5
               a(href="#" data-href='/doctors/editdoctor/#{doctor._id}' data-toggle="modal" data-target="#editModal#{doctor._id}")
@@ -37,6 +48,9 @@ block content
               | 
               a(href="#" data-href="/doctors/deldoctor/#{doctor._id}" data-toggle="modal" data-target="#delModal")
                 span.glyphicon.glyphicon-trash
+              | 
+              a(href="#" data-href="/doctors/viewdoctor/#{doctor._id}" id="viewMode" data-toggle="modal" data-target="#viewModal")
+                span.glyphicon.glyphicon-search
           .modal.fade(id="editModal#{doctor._id}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
               .modal-dialog.wide-modal
                 .modal-content
@@ -101,3 +115,15 @@ block content
            button.btn.btn-default(data-dismiss='modal') Cancel 
            | 
            button.btn.btn-primary(type="submit") Save
+  .modal.fade(id="viewModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
+    .modal-dialog.wide-modal
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4.addModalLabel.modal-title View Doctor
+        .modal-body
+          form(name="adddoctor",method="post",action="/doctors/updatedoctor")
+           input(name="_id", type="hidden", value="#{doctor._id}")
+           .form-group
+           label * ID: 
+           output(id="view_id")
