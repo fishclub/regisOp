@@ -26,13 +26,21 @@ block content
           Action
       tbody
         script(type="text/javascript").
-          $(function(){
-            $('#viewMode').click(function(){
-                $.get( $('#viewMode').attr('data-href'), function(data) {
-                  $('#view_id').val(data.doctorId);
-                });
+          function viewData(obj) {
+            $.get( obj.getAttribute("data-href"), function(data) {
+              $('#view_id').val(data.doctorId);
+              $('#view_name').val(data.name);
+              $('#view_surname').val(data.surName);
+              $('#view_extPhone').val(data.extPhone);
             });
-          });
+          }
+
+          function editData(obj) {
+            $.get( obj.getAttribute("data-href"), function(data) {
+              $('#edit_id').val(data.doctorId);
+            });
+          }
+
         for doctor in doctors
          tr
           td #{doctor.doctorId}
@@ -43,46 +51,14 @@ block content
           td #{doctor.modifiedDT.toDateString()}   	
           td(align="center")
             h5
-              a(href="#" data-href='/doctors/editdoctor/#{doctor._id}' data-toggle="modal" data-target="#editModal#{doctor._id}")
+              a(href="#" data-href='/doctors/viewdoctor/#{doctor._id}' data-toggle="modal" data-target="#editModal" onclick="editData(this)")
                 span.glyphicon.glyphicon-pencil
               | 
               a(href="#" data-href="/doctors/deldoctor/#{doctor._id}" data-toggle="modal" data-target="#delModal")
                 span.glyphicon.glyphicon-trash
               | 
-              a(href="#" data-href="/doctors/viewdoctor/#{doctor._id}" id="viewMode" data-toggle="modal" data-target="#viewModal")
+              a(href="#" data-href="/doctors/viewdoctor/#{doctor._id}" data-toggle="modal" data-target="#viewModal" onclick="viewData(this)")
                 span.glyphicon.glyphicon-search
-          .modal.fade(id="editModal#{doctor._id}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
-              .modal-dialog.wide-modal
-                .modal-content
-                  .modal-header
-                    button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-                    h4.addModalLabel.modal-title Edit Doctor
-                  .modal-body
-                    form(name="adddoctor",method="post",action="/doctors/updatedoctor")
-                     input(name="_id", type="hidden", value="#{doctor._id}")
-                     .form-group
-                     label * ID: 
-                     input.form-control(type="text", placeholder="ID", name="doctorId", value="#{doctor.doctorId}", required)
-                     .form-group
-                     label * Name: 
-                     input.form-control(type="text", placeholder="Name", name="name", value="#{doctor.name}", required)
-                     .form-group
-                     label Surname: 
-                     input.form-control(type="text", placeholder="Surname", name="surName", value="#{doctor.surName}")
-                     .form-group
-                     label Gender: 
-                     label.radio.inline
-                     input(type="radio", name="gender", value="Male", checked=doctor.gender=='Male') 
-                     |  Male 
-                     input(type="radio", name="gender", value="Female", checked=doctor.gender=='Female')
-                     |  Female 
-                     .form-group
-                     label Ext. Phone: 
-                     input.form-control(type="text", placeholder="Ext. Phone", name="extPhone", value="#{doctor.extPhone}")
-                     .form-group
-                     button.btn.btn-default(data-dismiss='modal') Cancel 
-                     | 
-                     button.btn.btn-primary(type="submit") Update
   .modal.fade(id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true")
     .modal-dialog.wide-modal
       .modal-content
@@ -115,7 +91,7 @@ block content
            button.btn.btn-default(data-dismiss='modal') Cancel 
            | 
            button.btn.btn-primary(type="submit") Save
-  .modal.fade(id="viewModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
+  .modal.fade(id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true")
     .modal-dialog.wide-modal
       .modal-content
         .modal-header
@@ -127,3 +103,44 @@ block content
            .form-group
            label * ID: 
            output(id="view_id")
+           .form-group
+           label * Name: 
+           output(id="view_name")
+           .form-group
+           label Surname: 
+           output(id="view_surname")
+           .form-group
+           label Ext. Phone: 
+           output(id="view_extPhone")
+  .modal.fade(id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
+    .modal-dialog.wide-modal
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4.addModalLabel.modal-title View Doctor
+        .modal-body
+          form(name="editdoctor",method="post",action="/doctors/updatedoctor")
+           input(name="_id", type="hidden", value="#{doctor._id}")
+           .form-group
+           label * ID: 
+           input.form-control(id="edit_id", type="text", placeholder="ID", name="doctorId", required)
+           .form-group
+           label * Name: 
+           input.form-control(type="text", placeholder="Name", name="name", value="#{doctor.name}", required)
+           .form-group
+           label Surname: 
+           input.form-control(type="text", placeholder="Surname", name="surName", value="#{doctor.surName}")
+           .form-group
+           label Gender: 
+           label.radio.inline
+           input(type="radio", name="gender", value="Male", checked=doctor.gender=='Male') 
+           |  Male 
+           input(type="radio", name="gender", value="Female", checked=doctor.gender=='Female')
+           |  Female 
+           .form-group
+           label Ext. Phone: 
+           input.form-control(type="text", placeholder="Ext. Phone", name="extPhone", value="#{doctor.extPhone}")
+           .form-group
+           button.btn.btn-default(data-dismiss='modal') Cancel 
+           | 
+           button.btn.btn-primary(type="submit") Update
