@@ -38,6 +38,9 @@ block content
           function editData(obj) {
             $.get( obj.getAttribute("data-href"), function(data) {
               $('#edit_id').val(data.doctorId);
+              $('#edit_name').val(data.name);
+              $('#edit_surname').val(data.surName);
+              $('#edit_extPhone').val(data.extPhone);
             });
           }
 
@@ -126,10 +129,10 @@ block content
            input.form-control(id="edit_id", type="text", placeholder="ID", name="doctorId", required)
            .form-group
            label * Name: 
-           input.form-control(type="text", placeholder="Name", name="name", value="#{doctor.name}", required)
+           input.form-control(id="edit_name", type="text", placeholder="Name", name="name", required)
            .form-group
            label Surname: 
-           input.form-control(type="text", placeholder="Surname", name="surName", value="#{doctor.surName}")
+           input.form-control(id="edit_surname", type="text", placeholder="Surname", name="surName")
            .form-group
            label Gender: 
            label.radio.inline
@@ -139,7 +142,7 @@ block content
            |  Female 
            .form-group
            label Ext. Phone: 
-           input.form-control(type="text", placeholder="Ext. Phone", name="extPhone", value="#{doctor.extPhone}")
+           input.form-control(id="edit_extPhone", type="text", placeholder="Ext. Phone", name="extPhone")
            .form-group
            button.btn.btn-default(data-dismiss='modal') Cancel 
            | 
