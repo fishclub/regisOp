@@ -31,6 +31,7 @@ block content
               $('#view_id').val(data.doctorId);
               $('#view_name').val(data.name);
               $('#view_surname').val(data.surName);
+              $('#view_gender').val(data.gender);
               $('#view_extPhone').val(data.extPhone);
             });
           }
@@ -114,6 +115,9 @@ block content
            .form-group
            label Surname: 
            output(id="view_surname")
+           .form-group
+           label Gender: 
+           output(id="view_gender")
            .form-group
            label Ext. Phone: 
            output(id="view_extPhone")
