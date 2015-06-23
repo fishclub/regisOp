@@ -63,8 +63,7 @@ router.get('/viewdoctor/:id', function (req, res){
 	console.log(req.params.id);
 	Doctor.findById(req.params.id, function(err, doctor){
 	    if (err) return console.error(err);
-	    console.log(doctor);
-		res.send(doctor);
+	    res.send(doctor);
 	});
 });
 
@@ -86,7 +85,7 @@ router.post('/updatedoctor', function (req, res){
 	Doctor.findById(req.body._id, function(err, doctor){
     if (err) return console.error(err);
     doctor.userId = req.user._id;
-	doctor.doctorId=req.body.doctorId;
+    doctor.doctorId=req.body.doctorId;
 	doctor.name=req.body.name;
 	doctor.surName=req.body.surName;
 	doctor.gender=req.body.gender;

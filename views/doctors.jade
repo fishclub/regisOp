@@ -37,9 +37,11 @@ block content
 
           function editData(obj) {
             $.get( obj.getAttribute("data-href"), function(data) {
-              $('#edit_id').val(data.doctorId);
+              $('#edit_id').val(data._id);
+              $('#edit_doctorId').val(data.doctorId);
               $('#edit_name').val(data.name);
               $('#edit_surname').val(data.surName);
+              $('input:radio[name="gender"][value="'+data.gender+'"]').prop('checked', true);
               $('#edit_extPhone').val(data.extPhone);
             });
           }
@@ -123,10 +125,10 @@ block content
           h4.addModalLabel.modal-title View Doctor
         .modal-body
           form(name="editdoctor",method="post",action="/doctors/updatedoctor")
-           input(name="_id", type="hidden", value="#{doctor._id}")
+           input(id="edit_id", type="hidden", name="_id")
            .form-group
            label * ID: 
-           input.form-control(id="edit_id", type="text", placeholder="ID", name="doctorId", required)
+           input.form-control(id="edit_doctorId", type="text", placeholder="ID", name="doctorId", required)
            .form-group
            label * Name: 
            input.form-control(id="edit_name", type="text", placeholder="Name", name="name", required)
@@ -136,9 +138,9 @@ block content
            .form-group
            label Gender: 
            label.radio.inline
-           input(type="radio", name="gender", value="Male", checked=doctor.gender=='Male') 
+           input(type="radio", name="gender", value="Male") 
            |  Male 
-           input(type="radio", name="gender", value="Female", checked=doctor.gender=='Female')
+           input(type="radio", name="gender", value="Female")
            |  Female 
            .form-group
            label Ext. Phone: 
