@@ -60,7 +60,6 @@ router.get('/deldoctor/:id', function (req, res){
 });
 
 router.get('/viewdoctor/:id', function (req, res){
-	console.log(req.params.id);
 	Doctor.findById(req.params.id, function(err, doctor){
 	    if (err) return console.error(err);
 	    res.send(doctor);
@@ -93,10 +92,11 @@ router.post('/updatedoctor', function (req, res){
 	doctor.modifiedDT = Date.now();
 	doctor.save(function(err, doctor){
 		if (err) return console.error(err);
-			Doctor.find(function(err, doctors){
+			Doctor.find({ 'userId' :  req.user._id }, function(err, doctors){
 			if (err) return console.error(err);
 			req.flash('success', 'Update success');
-			res.redirect('/doctors/listdoctor');
+			res.send(doctors);
+			//res.redirect('/doctors/listdoctor');
 		});
 	});
   });
