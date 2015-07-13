@@ -10,7 +10,7 @@ block content
       a(href="#" data-toggle="modal" data-target="#addModal")
         span.glyphicon.glyphicon-plus
     if message.length > 0
-     .alert.alert-info #{message}
+     .alert.alert-info(id="alertMessage") #{message}
     table.table.table-striped.table-bordered(id="mainTable")
       thead
        tr
