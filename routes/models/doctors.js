@@ -45,7 +45,7 @@ router.post('/adddoctor', function(req, res){
 		objAdd.save(function(err, doctor) {
 			if (err) return console.error(err);
 			req.flash('success', 'Save success');
-			res.redirect('./editDoctor/'+doctor._id);
+			res.redirect('/doctors/listdoctor');
 		});
 });
 
@@ -95,8 +95,7 @@ router.post('/updatedoctor', function (req, res){
 			Doctor.find({ 'userId' :  req.user._id }, function(err, doctors){
 			if (err) return console.error(err);
 			req.flash('success', 'Update success');
-			res.send(doctors);
-			//res.redirect('/doctors/listdoctor');
+			res.redirect('/doctors/listdoctor');
 		});
 	});
   });

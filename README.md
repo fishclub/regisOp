@@ -94,3 +94,55 @@ tr(data-url="/doctors/editdoctor/#{doctor._id}")
        input.form-control(type="text", placeholder="Ext. Phone", name="extPhone", value="#{doctor.extPhone}")
        .form-group
        button.btn.btn-primary(type="submit") Update
+
+ $(function(){
+            $('#viewMode').click(function(){
+                $.get( $('#viewMode').attr('data-href'), function(data) {
+                  $('#view_id').val(data.doctorId);
+                  $('#view_name').val(data.name);
+                });
+            });
+          });
+
+
+.modal.fade(id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
+    .modal-dialog.wide-modal
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4.addModalLabel.modal-title View Doctor
+        .modal-body
+          form(name="adddoctor",method="post",action="/doctors/updatedoctor")
+           input(name="_id", type="hidden", value="#{doctor._id}")
+           .form-group
+           label * ID: 
+           input.form-control(type="text", placeholder="ID", name="doctorId", value="#{doctor.doctorId}", required)
+           .form-group
+           label * Name: 
+           input.form-control(type="text", placeholder="Name", name="name", value="#{doctor.name}", required)
+           .form-group
+           label Surname: 
+           input.form-control(type="text", placeholder="Surname", name="surName", value="#{doctor.surName}")
+           .form-group
+           label Gender: 
+           label.radio.inline
+           input(type="radio", name="gender", value="Male", checked=doctor.gender=='Male') 
+           |  Male 
+           input(type="radio", name="gender", value="Female", checked=doctor.gender=='Female')
+           |  Female 
+           .form-group
+           label Ext. Phone: 
+           input.form-control(type="text", placeholder="Ext. Phone", name="extPhone", value="#{doctor.extPhone}")
+           .form-group
+           button.btn.btn-default(data-dismiss='modal') Cancel 
+           | 
+           button.btn.btn-primary(type="submit") Update    
+
+
+sort table
+
+  $('#mainTable').dataTable( {
+    "order": [[ 0, "desc" ]]
+  });
+
+        //res.redirect('./editDoctor/'+doctor._id);
