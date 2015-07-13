@@ -146,3 +146,5 @@ sort table
   });
 
         //res.redirect('./editDoctor/'+doctor._id);
+
+              //res.send(doctors);
