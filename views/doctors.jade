@@ -6,69 +6,74 @@ block content
       $('#mainTable').dataTable();
     }); 
   .container
-    h2 Doctor 
-      a(href="#" data-toggle="modal" data-target="#addModal")
-        span.glyphicon.glyphicon-plus
-    if message.length > 0
-     .alert.alert-info(id="alertMessage") #{message}
-    table.table.table-striped.table-bordered(id="mainTable")
-      thead
-       tr
-        th.
-          ID
-        th.
-          Name
-        th.
-          Surname
-        th.
-          Gender
-        th.
-          Ext. Phone
-        th.
-          Modified Date
-        th.
-          Action
-      tbody
-        script(type="text/javascript").
-          function viewData(obj) {
-            $.get( obj.getAttribute("data-href"), function(data) {
-              $('#view_id').val(data.doctorId);
-              $('#view_name').val(data.name);
-              $('#view_surname').val(data.surName);
-              $('#view_gender').val(data.gender);
-              $('#view_extPhone').val(data.extPhone);
-            });
-          }
-
-          function editData(obj) {
-            $.get( obj.getAttribute("data-href"), function(data) {
-              $('#edit_id').val(data._id);
-              $('#edit_doctorId').val(data.doctorId);
-              $('#edit_name').val(data.name);
-              $('#edit_surname').val(data.surName);
-              $('input:radio[name="gender"][value="'+data.gender+'"]').prop('checked', true);
-              $('#edit_extPhone').val(data.extPhone);
-            });
-          }
-
-        for doctor in doctors
+    .row(class="col-md-12")
+      p #{Date.now()}
+      h2 Doctor 
+        a(href="#" data-toggle="modal" data-target="#addModal")
+          span.glyphicon.glyphicon-plus
+      if message.length > 0
+       .alert.alert-info(id="alertMessage") #{message}
+    .row(class="col-md-12")
+      table.table.table-striped.table-bordered(id="mainTable")
+        thead
          tr
-          td #{doctor.doctorId}
-          td #{doctor.name}		
-          td #{doctor.surName}   
-          td #{doctor.gender} 
-          td #{doctor.extPhone} 
-          td #{doctor.modifiedDT.toDateString()}   	
-          td(align="center")
-            h5
-              a(href="#" data-href='/doctors/viewdoctor/#{doctor._id}' data-toggle="modal" data-target="#editModal" onclick="editData(this)")
-                span.glyphicon.glyphicon-pencil
-              | 
-              a(href="#" data-href="/doctors/deldoctor/#{doctor._id}" data-toggle="modal" data-target="#delModal")
-                span.glyphicon.glyphicon-trash
-              | 
-              a(href="#" data-href="/doctors/viewdoctor/#{doctor._id}" data-toggle="modal" data-target="#viewModal" onclick="viewData(this)")
-                span.glyphicon.glyphicon-search
+          th.
+            ID
+          th.
+            Name
+          th.
+            Surname
+          th.
+            Gender
+          th.
+            Ext. Phone
+          th.
+            Modified Date
+          th.
+            Action
+        tbody
+          script(type="text/javascript").
+            function viewData(obj) {
+              $.get( obj.getAttribute("data-href"), function(data) {
+                $('#view_id').val(data.doctorId);
+                $('#view_name').val(data.name);
+                $('#view_surname').val(data.surName);
+                $('#view_gender').val(data.gender);
+                $('#view_extPhone').val(data.extPhone);
+                $('#view_totalExp').val(data.totalExp);
+              });
+            }
+
+            function editData(obj) {
+              $.get( obj.getAttribute("data-href"), function(data) {
+                $('#edit_id').val(data._id);
+                $('#edit_doctorId').val(data.doctorId);
+                $('#edit_name').val(data.name);
+                $('#edit_surname').val(data.surName);
+                $('input:radio[name="gender"][value="'+data.gender+'"]').prop('checked', true);
+                $('#edit_extPhone').val(data.extPhone);
+                $('#edit_totalExp').val(data.totalExp);
+              });
+            }
+
+          for doctor in doctors
+           tr
+            td #{doctor.doctorId}
+            td #{doctor.name}		
+            td #{doctor.surName}   
+            td #{doctor.gender} 
+            td #{doctor.extPhone} 
+            td #{doctor.modifiedDT.toDateString()}   	
+            td(align="center")
+              h5
+                a(href="#" data-href='/doctors/viewdoctor/#{doctor._id}' data-toggle="modal" data-target="#editModal" onclick="editData(this)")
+                  span.glyphicon.glyphicon-pencil
+                | 
+                a(href="#" data-href="/doctors/deldoctor/#{doctor._id}" data-toggle="modal" data-target="#delModal")
+                  span.glyphicon.glyphicon-trash
+                | 
+                a(href="#" data-href="/doctors/viewdoctor/#{doctor._id}" data-toggle="modal" data-target="#viewModal" onclick="viewData(this)")
+                  span.glyphicon.glyphicon-search
   script(type="text/javascript").
       $('#mainTable').dataTable( {
         "order": [[ 5, "desc" ]]
@@ -102,6 +107,9 @@ block content
            label Ext. Phone: 
            input.form-control(type="text", placeholder="Ext. Phone", name="extPhone")
            .form-group
+           label Total Exp: 
+           input.form-control(type="text", placeholder="Experience", name="totalExp")
+           .form-group
            button.btn.btn-default(data-dismiss='modal') Cancel 
            | 
            button.btn.btn-primary(type="submit") Save
@@ -129,6 +137,9 @@ block content
            .form-group
            label Ext. Phone: 
            output(id="view_extPhone")
+           .form-group
+           label Total Exp: 
+           output(id="view_totalExp")
   .modal.fade(id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
     .modal-dialog.wide-modal
       .modal-content
@@ -157,6 +168,9 @@ block content
            .form-group
            label Ext. Phone: 
            input.form-control(id="edit_extPhone", type="text", placeholder="Ext. Phone", name="extPhone")
+           .form-group
+           label Total Exp: 
+           output(id="edit_totalExp")
            .form-group
            button.btn.btn-default(data-dismiss='modal') Cancel 
            | 

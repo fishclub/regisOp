@@ -145,6 +145,13 @@ sort table
     "order": [[ 0, "desc" ]]
   });
 
-        //res.redirect('./editDoctor/'+doctor._id);
+//res.redirect('./editDoctor/'+doctor._id);
 
-              //res.send(doctors);
+      //res.send(doctors);
+
+block foot
+  .container
+    p some footer content   
+        
+install dateformat
+        npm install moment --save           

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var moment = require('moment');
 var Schema   = mongoose.Schema;
 var DoctorSchema = new Schema({
 	userId : String,
@@ -9,6 +10,8 @@ var DoctorSchema = new Schema({
     surName  : String,
     gender  : String,
     extPhone  : String,
+    startDT : Date,
+    totalExp : Number,
     modifiedDT : Date
 });
 
@@ -20,6 +23,8 @@ initObj.doctorId='';
 initObj.name='';
 initObj.surName='';
 initObj.gender='';
+initObj.startDT=moment().format("MMM Do YY");
+initObj.totalExp='';
 initObj.extPhone='';
 
 router.get('/listdoctor', isLoggedIn, function (req, res){
@@ -42,6 +47,8 @@ router.post('/adddoctor', function(req, res){
 		objAdd.gender = req.body.gender;
 		objAdd.extPhone = req.body.extPhone;
 		objAdd.modifiedDT = Date.now();
+		objAdd.startDT=Date.now();
+		objAdd.totalExp=0;
 		objAdd.save(function(err, doctor) {
 			if (err) return console.error(err);
 			req.flash('success', 'Save success');
@@ -90,6 +97,7 @@ router.post('/updatedoctor', function (req, res){
 	doctor.gender=req.body.gender;
 	doctor.extPhone=req.body.extPhone;
 	doctor.modifiedDT = Date.now();
+	doctor.totalExp= Date.now() - doctor.startDT;
 	doctor.save(function(err, doctor){
 		if (err) return console.error(err);
 			Doctor.find({ 'userId' :  req.user._id }, function(err, doctors){
