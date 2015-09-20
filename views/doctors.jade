@@ -62,7 +62,7 @@ block content
             td #{doctor.surName}   
             td #{doctor.gender} 
             td #{doctor.extPhone} 
-            td #{doctor.modifiedDT}   	
+            td #{moment(doctor.modifiedDT).format('DD/MM/YYYY HH:MM')}
             td(align="center")
               h5
                 a(href="#" data-href='/doctors/viewdoctor/#{doctor._id}' data-toggle="modal" data-target="#editModal" onclick="editData(this)")
