@@ -62,7 +62,7 @@ block content
             td #{doctor.surName}   
             td #{doctor.gender} 
             td #{doctor.extPhone} 
-            td #{moment(doctor.modifiedDT).format('DD/MM/YYYY HH:MM')}
+            td #{moment(doctor.modifiedDT).format('DD/MM/YYYY HH:mm')}
             td(align="center")
               h5
                 a(href="#" data-href='/doctors/viewdoctor/#{doctor._id}' data-toggle="modal" data-target="#editModal" onclick="editData(this)")
@@ -139,6 +139,8 @@ block content
            .form-group
            label Total Exp: 
            output(id="view_totalExp")
+           .form-group
+           button.btn.btn-primary(data-dismiss='modal') Close 
   .modal.fade(id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
     .modal-dialog.wide-modal
       .modal-content
