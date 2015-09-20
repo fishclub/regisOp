@@ -23,7 +23,7 @@ initObj.doctorId='';
 initObj.name='';
 initObj.surName='';
 initObj.gender='';
-initObj.startDT=moment().format("MMM Do YY");
+initObj.startDT='';
 initObj.totalExp='';
 initObj.extPhone='';
 
