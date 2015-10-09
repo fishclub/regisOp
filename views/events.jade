@@ -1,143 +1,120 @@
 extends layout
 
 block content
+  script(type="text/javascript").
+    $(function () { 
+      $('#mainTable').dataTable();
+    }); 
   .container
-        h2 Your Event #[a.btn.btn-primary(href="/events/listevent") Create Event]
-        table.display(id="mainTable")
-         thead
+    .row(class="col-md-12")
+      h2 Event 
+        a(href="#" data-toggle="modal" data-target="#addModal")
+          span.glyphicon.glyphicon-plus
+      if message.length > 0
+       .alert.alert-info(id="alertMessage") #{message}
+    .row(class="col-md-12")
+      table.table.table-striped.table-bordered(id="mainTable")
+        thead
+         tr
+          th.
+            Title 
+          th.
+            Doctor
+          th.
+            Action
+        tbody
+          script(type="text/javascript").
+            function viewData(obj) {
+              $.get( obj.getAttribute("data-href"), function(data) {
+                $('#view_title').val(data.title);
+                $('#view_doctor').val(data.doctor);
+              });
+            }
+
+            function editData(obj) {
+              $.get( obj.getAttribute("data-href"), function(data) {
+                $('#edit_id').val(data._id);
+                $('#edit_title').val(data.title);
+                $('#edit_doctor').val(data.doctor);
+              });
+            }
+
+          for event in events
            tr
-            th.
-              Title
-            th.
-              Start Date
-            th.
-              End Date
-            th.
-              Oganization
-            th.
-              Doctor
-            th.
-              Action
-          tbody
-            for event in events
-             tr
-              td #{event.title}
-              td #{event.startDate}
-              td #{event.endDate}
-              td #{event.oganization}			
-              td #{event.doctor}      
-              td #[a.btn-xs.btn-primary(href="/events/editevent/#{event._id}") Edit] #[a.btn-xs.btn-danger(href="/events/delevent/#{event._id}") Delete]
-        if message.length > 0
-         .alert.alert-info #{message}
-        if event.userId==''
-          h4 Add Event
+            td #{event.title}
+            td #{event.doctor}
+            td(align="center")
+              h5
+                a(href="#" data-href='/events/viewevent/#{event._id}' data-toggle="modal" data-target="#editModal" onclick="editData(this)")
+                  span.glyphicon.glyphicon-pencil
+                | 
+                a(href="#" data-href="/events/delevent/#{event._id}" data-toggle="modal" data-target="#delModal")
+                  span.glyphicon.glyphicon-trash
+                | 
+                a(href="#" data-href="/events/viewevent/#{event._id}" data-toggle="modal" data-target="#viewModal" onclick="viewData(this)")
+                  span.glyphicon.glyphicon-search
+  script(type="text/javascript").
+      $('#mainTable').dataTable( {
+        "order": [[ 1, "desc" ]]
+      });
+  .modal.fade(id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true")
+    .modal-dialog.wide-modal
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4.addModalLabel.modal-title Add event
+        .modal-body
           form(name="addevent",method="post",action="/events/addevent")
-           input(name="_id", type="hidden", value="#{event._id}")		  
+           input(name="_id", type="hidden", value="#{event._id}")      
            .form-group
-           label Title: 
-           input.form-control(type="text", placeholder="title", name="title")
+           label * Title: 
+           input.form-control(type="text", placeholder="TITLE", name="title", required)
            .form-group
-           label Start Date: 
-           .input-group.date(id="startDatePicker")
-            input.form-control(type="text", placeholder="startDate", name="startDate")
-            span.input-group-addon
-             span.glyphicon.glyphicon-calendar
-           .form-group
-           label End Date: 
-           .input-group.date(id="endDatePicker")
-            input.form-control(type="text", placeholder="endDate", name="endDate")
-            span.input-group-addon
-             span.glyphicon.glyphicon-calendar
-           .form-group
-           label Location: 
-           input.form-control(type="text", placeholder="location", name="location")
-           .form-group
-           label Description: 
-           input.form-control(type="text", placeholder="description", name="description")
-           .form-group
-           label Oganization: 
-           select.form-control(name='oganization')
-             option(value='')
-              each organization in organizations
-               option(value=organization.orgName, selected=select)= organization.orgName
-           .form-group
-           label Doctor: 
+           label * Doctor: 
            select.form-control(name='doctor')
              option(value='')
               each doctor in doctors
                option(value=doctor.name, selected=select)= doctor.name
            .form-group
+           button.btn.btn-default(data-dismiss='modal') Cancel 
+           | 
            button.btn.btn-primary(type="submit") Save
-           script
-            | $(function () {
-            |  $('#startDatePicker').datetimepicker();
-            | });
-
-            | $(function () {
-            |  $('#endDatePicker').datetimepicker();
-            | });
-        else
-          h4 Edit Event
+  .modal.fade(id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true")
+    .modal-dialog.wide-modal
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4.addModalLabel.modal-title View event
+        .modal-body
           form(name="addevent",method="post",action="/events/updateevent")
            input(name="_id", type="hidden", value="#{event._id}")
            .form-group
-           label Title: 
-           input.form-control(type="text", placeholder="title", name="title", value="#{event.title}")
+           label * Title: 
+           output(id="view_title")
            .form-group
-           label Start Date: 
-           .input-group.date(id="updateStartDatePicker")
-            input.form-control(type="text", placeholder="startDate", name="startDate", value="#{event.startDate}")
-            span.input-group-addon
-             span.glyphicon.glyphicon-calendar
+           label * Doctor: 
+           output(id="view_doctor")
            .form-group
-           label End Date: 
-           .input-group.date(id="updateEndDatePicker")
-            input.form-control(type="text", placeholder="endDate", name="endDate", value="#{event.endDate}")
-            span.input-group-addon
-             span.glyphicon.glyphicon-calendar
+           button.btn.btn-primary(data-dismiss='modal') Close 
+  .modal.fade(id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true")
+    .modal-dialog.wide-modal
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4.addModalLabel.modal-title Edit event
+        .modal-body
+          form(name="editevent",method="post",action="/events/updateevent")
+           input(id="edit_id", type="hidden", name="_id")
            .form-group
-           label Location: 
-           input.form-control(type="text", placeholder="location", name="location", value="#{event.location}")
+           label * Title: 
+           input.form-control(id="edit_title", type="text", placeholder="TITLE", name="title", required)
            .form-group
-           label Description: 
-           input.form-control(type="text", placeholder="description", name="description", value="#{event.description}")
-           .form-group
-           label Oganization: 
-           select.form-control(name='oganization')
-             option(value='')
-              each organization in organizations
-               option(value=organization.orgName, selected=event.oganization==organization.orgName)= organization.orgName
-           .form-group
-           label Doctor: 
-           select.form-control(name='doctor')
+           label * Doctor: 
+           select.form-control(id="edit_doctor", name='doctor')
              option(value='')
               each doctor in doctors
-               option(value=doctor.name, selected=event.doctor==doctor.name)= doctor.name
+               option(value=doctor.name, selected=doctor.name)= doctor.name
            .form-group
-           .form-group
-           button.btn.btn-primary(type="submit") Update
-           script
-            | $(function () {
-            |  $('#updateStartDatePicker').datetimepicker();
-            | });
-
-            | $(function () {
-            |  $('#updateEndDatePicker').datetimepicker();
-            | });
-        .modal.fade(id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
-          .modal-dialog.wide-modal
-            .modal-content
-              .modal-header
-                button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-                h4.myModalLabel.modal-title Organization
-              .modal-body
-                table.table.table-striped.table-hover
-                 tr
-                  th.
-                     Name
-                  th.
-                    Type
-                  th.
-                    Action
-              .modal-footer
-                button.btn.btn-primary(type='button', data-dismiss='modal') Close
+           button.btn.btn-default(data-dismiss='modal') Cancel 
+           | 
+           button.btn.btn-primary(type="submit") Update                          
